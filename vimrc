@@ -2,17 +2,9 @@
 
 
 " 判断操作系统
-let g:iswindows = 0
-let g:islinux = 0
-let g:isosx = 0
-if(has("win32") || has("win64") || has("win95") || has("win16"))
-	let g:iswindows = 1
-elseif (has("linux"))
-	let g:islinux = 1
-else
-	let g:isosx = 1
-endif
-     
+let g:darwin = has('mac')
+let g:windows = has('win32') || has('win64')
+
 "
 "==============================================================================
 " 处理 Gnome 终端不能使用 alt 快捷键
@@ -171,6 +163,8 @@ Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 let g:deoplete#enable_at_startup = 1
 
+" CSV格式化插件
+Plug 'chrisbra/csv.vim'
 
 " 插件结束的位置，插件全部放在此行上面
 call plug#end()
@@ -348,34 +342,6 @@ map <silent> <F6> <Plug>StopMarkdownPreview
 
 " 自动注释的时候添加空格
 let g:NERDSpaceDelims=1
-
-
-
-"==============================================================================
-" GVim 的配置
-"==============================================================================
-" 如果不使用 GVim ，可以不用配置下面的配置
-if has('gui_running')
-	" colorscheme gruvbox
-	colorscheme gruvbox
-	set background=light " 主题背景 dark-深色; light-浅色
-
-	" 设置启动时窗口的大小
-	set lines=999 columns=999 linespace=4
-
-	" 设置字体及大小
-	set guifont=Roboto\ Mono\ 13
-
-	set guioptions-=m " 隐藏菜单栏
-	set guioptions-=T " 隐藏工具栏
-	set guioptions-=L " 隐藏左侧滚动条
-	set guioptions-=r " 隐藏右侧滚动条
-	set guioptions-=b " 隐藏底部滚动条
-
-	set guifont=Fira\ Code\ 14
-	set lines=999 columns=999
-
-endif
 
 
 "==============================================================================
