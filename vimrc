@@ -1,4 +1,18 @@
-" 这是一份基于 Ubuntu 18.04 的配置， 其他环境未测试
+" 这是一份适用 MacOS/Ubuntu的配置， 其他环境未测试
+
+
+" 判断操作系统
+let g:iswindows = 0
+let g:islinux = 0
+let g:isosx = 0
+if(has("win32") || has("win64") || has("win95") || has("win16"))
+	let g:iswindows = 1
+elseif (has("linux"))
+	let g:islinux = 1
+else
+	let g:isosx = 1
+endif
+     
 "
 "==============================================================================
 " 处理 Gnome 终端不能使用 alt 快捷键
@@ -286,12 +300,12 @@ nmap <Leader>pwd :NERDTreeCWD<CR>
 "==============================================================================
 
 " make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<M-j>', '<DOWN>']
-let g:ycm_key_list_previous_completion = ['<M-k>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<M-j>'
+"let g:ycm_key_list_select_completion = ['<M-j>', '<DOWN>']
+"let g:ycm_key_list_previous_completion = ['<M-k>', '<Up>']
+"let g:SuperTabDefaultCompletionType = '<M-j>'
 
 " 关闭了提示再次触发的快捷键
-let g:ycm_key_invoke_completion = '<Leader>,'
+"let g:ycm_key_invoke_completion = '<Leader>,'
 
 "==============================================================================
 " UltiSnips 插件
