@@ -5,6 +5,9 @@
 let g:darwin = has('mac')
 let g:windows = has('win32') || has('win64')
 
+" 解决maxmempattern的问题
+set maxmempattern=20000
+
 "
 "==============================================================================
 " 处理 Gnome 终端不能使用 alt 快捷键
@@ -166,6 +169,9 @@ let g:deoplete#enable_at_startup = 1
 " CSV格式化插件
 Plug 'chrisbra/csv.vim'
 
+" 搜索用,ag插件，由于和fzf冲突，命令改为Agg
+Plug 'rking/ag.vim'
+
 " 插件结束的位置，插件全部放在此行上面
 call plug#end()
 
@@ -203,7 +209,7 @@ let g:go_def_mode = 'gopls'
 let g:go_info_mode = 'gopls'
 let g:go_def_mapping_enabled = 1
 let g:go_code_completion_enabled = 1
-
+let g:go_implements_mode = 'gopls'
 
 " 直接通过 go run 执行当前文件
 autocmd FileType go nmap <leader>r :GoRun %<CR>
@@ -381,3 +387,9 @@ map <Leader>cd :cd %:h<CR>
 " 退出
 map <Leader>q :q<CR>
 map <Leader>wq :wq<CR>
+
+" 指定CSV文件分隔符
+let g:csv_delim=','
+
+" go折叠
+let g:go_fold_enable = ['block', 'import', 'varconst', 'package_comment']
