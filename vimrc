@@ -170,6 +170,7 @@ let g:deoplete#enable_at_startup = 1
 Plug 'chrisbra/csv.vim'
 
 " 搜索用,ag插件，由于和fzf冲突，命令改为Agg
+" 修改方法，将.vim/xx/plugin/ag.vim文件里的Ag命令改为Agg
 Plug 'rking/ag.vim'
 
 " 插件结束的位置，插件全部放在此行上面
