@@ -173,6 +173,9 @@ Plug 'chrisbra/csv.vim'
 " 修改方法，将.vim/xx/plugin/ag.vim文件里的Ag命令改为Agg
 Plug 'rking/ag.vim'
 
+" git
+Plug 'tpope/vim-fugitive'
+
 " 插件结束的位置，插件全部放在此行上面
 call plug#end()
 
