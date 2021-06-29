@@ -122,6 +122,10 @@ Plug 'ianva/vim-youdao-translater'
 
 " 代码自动完成，安装完插件还需要额外配置才可以使用
 "Plug 'Valloric/YouCompleteMe'
+"
+
+" 代码自动补全
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " 可以在文档中显示 git 信息
 Plug 'airblade/vim-gitgutter'
@@ -139,7 +143,7 @@ Plug 'morhetz/gruvbox'
 "Plug 'altercation/vim-colors-solarized'
 
 " go 主要插件
-Plug 'fatih/vim-go', { 'tag': '*' }
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 " go 中的代码追踪，输入 gd 就可以自动跳转
 Plug 'dgryski/vim-godef'
 
@@ -161,10 +165,10 @@ Plug 'junegunn/fzf.vim'
 Plug 'Chiel92/vim-autoformat'
 
 " 自动补全
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
-let g:deoplete#enable_at_startup = 1
+"Plug 'Shougo/deoplete.nvim'
+"Plug 'roxma/nvim-yarp'
+"Plug 'roxma/vim-hug-neovim-rpc'
+"let g:deoplete#enable_at_startup = 1
 
 " CSV格式化插件
 Plug 'chrisbra/csv.vim'
@@ -311,6 +315,17 @@ nmap <Leader>pwd :NERDTreeCWD<CR>
 " 关闭了提示再次触发的快捷键
 "let g:ycm_key_invoke_completion = '<Leader>,'
 
+"let g:ycm_language_server =
+"  \ [
+"  \   {
+"  \     'name': 'gopls',
+"  \     'cmdline': [ 'gopls' , "-rpc.trace" ],
+"  \     'filetypes': [ 'go' ],
+"  \     "project_root_files": [ "MakeFile" ]
+"  \   }
+"  \ ]
+
+
 "==============================================================================
 " UltiSnips 插件
 "==============================================================================
@@ -397,3 +412,6 @@ let g:csv_delim=','
 
 " go折叠
 let g:go_fold_enable = ['block', 'import', 'varconst', 'package_comment']
+
+" 设置自动保存
+set autowrite
