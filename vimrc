@@ -121,11 +121,13 @@ Plug 'vim-airline/vim-airline'
 Plug 'ianva/vim-youdao-translater'
 
 " 代码自动完成，安装完插件还需要额外配置才可以使用
-"Plug 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe'
 "
 
 " 代码自动补全
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+"Plug 'govim/govim'
 
 " 可以在文档中显示 git 信息
 Plug 'airblade/vim-gitgutter'
@@ -137,10 +139,11 @@ Plug 'honza/vim-snippets'
 
 " 配色方案
 " colorscheme gruvbox
-Plug 'morhetz/gruvbox'
+"Plug 'morhetz/gruvbox'
 " colorscheme one
 "Plug 'rakr/vim-one'
 "Plug 'altercation/vim-colors-solarized'
+Plug 'fatih/molokai'
 
 " go 主要插件
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
@@ -192,7 +195,9 @@ call plug#end()
 set termguicolors
 " 配色方案, 可以从上面插件安装中的选择一个使用
 " colorscheme gruvbox " gruvbox " 主题
-colorscheme gruvbox " 主题
+let g:rehash256 = 1
+let g:molokai_original = 1
+colorscheme molokai " 主题
 set background=dark " 主题背景 dark-深色; light-浅色
 
 
@@ -313,7 +318,7 @@ nmap <Leader>pwd :NERDTreeCWD<CR>
 "let g:SuperTabDefaultCompletionType = '<M-j>'
 
 " 关闭了提示再次触发的快捷键
-"let g:ycm_key_invoke_completion = '<Leader>,'
+let g:ycm_key_invoke_completion = '<Leader>,'
 
 "let g:ycm_language_server =
 "  \ [
@@ -415,3 +420,6 @@ let g:go_fold_enable = ['block', 'import', 'varconst', 'package_comment']
 
 " 设置自动保存
 set autowrite
+
+" 手动设置gopls目录
+"let g:ycm_gopls_binary_path='/home/tangwei/go/bin/gopls'
