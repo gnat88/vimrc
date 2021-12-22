@@ -44,6 +44,12 @@ set tabstop=4 " 设置Tab长度为4空格
 set shiftwidth=4 " 设置自动缩进长度为4空格
 set autoindent " 继承前一行的缩进方式，适用于多行注释
 
+set foldenable              " 开始折叠
+set foldmethod=syntax       " 设置语法折叠
+set foldcolumn=0            " 设置折叠区域的宽度
+setlocal foldlevel=1        " 设置折叠层数为
+set foldlevelstart=99       " 打开文件是默认不折叠代码
+
 " 定义快捷键的前缀，即<Leader>
 let mapleader=";"
 
@@ -182,6 +188,12 @@ Plug 'rking/ag.vim'
 
 " git
 Plug 'tpope/vim-fugitive'
+
+" python3
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+
+Plug 'mattn/emmet-vim'
+
 
 " 插件结束的位置，插件全部放在此行上面
 call plug#end()
