@@ -38,17 +38,19 @@ set number " 设置绝对行号
 set relativenumber " 设置相对行号
 " set cursorcolumn " 突出显示当前列
 set showmatch " 显示括号匹配
-
+" 高亮搜索
+set hlsearch
 " tab 缩进
 set tabstop=4 " 设置Tab长度为4空格
 set shiftwidth=4 " 设置自动缩进长度为4空格
 set autoindent " 继承前一行的缩进方式，适用于多行注释
 
-set foldenable              " 开始折叠
-set foldmethod=syntax       " 设置语法折叠
-set foldcolumn=0            " 设置折叠区域的宽度
-setlocal foldlevel=1        " 设置折叠层数为
-set foldlevelstart=99       " 打开文件是默认不折叠代码
+" 这里设置代码折叠，但是会卡VIM
+"set foldenable              " 开始折叠
+"set foldmethod=syntax       " 设置语法折叠
+"set foldcolumn=0            " 设置折叠区域的宽度
+"setlocal foldlevel=1        " 设置折叠层数为
+"set foldlevelstart=99       " 打开文件是默认不折叠代码
 
 " 定义快捷键的前缀，即<Leader>
 let mapleader=";"
@@ -127,11 +129,11 @@ Plug 'vim-airline/vim-airline'
 Plug 'ianva/vim-youdao-translater'
 
 " 代码自动完成，安装完插件还需要额外配置才可以使用
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 "
 
 " 代码自动补全
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "Plug 'govim/govim'
 
@@ -144,7 +146,7 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " 配色方案
-" colorscheme gruvbox
+" colorschem
 "Plug 'morhetz/gruvbox'
 " colorscheme one
 "Plug 'rakr/vim-one'
@@ -179,6 +181,7 @@ Plug 'Chiel92/vim-autoformat'
 "Plug 'roxma/vim-hug-neovim-rpc'
 "let g:deoplete#enable_at_startup = 1
 
+
 " CSV格式化插件
 Plug 'chrisbra/csv.vim'
 
@@ -188,12 +191,6 @@ Plug 'rking/ag.vim'
 
 " git
 Plug 'tpope/vim-fugitive'
-
-" python3
-Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
-
-Plug 'mattn/emmet-vim'
-
 
 " 插件结束的位置，插件全部放在此行上面
 call plug#end()
