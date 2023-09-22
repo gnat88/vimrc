@@ -1,5 +1,5 @@
 " 这是一份适用 MacOS/Ubuntu的配置， 其他环境未测试
-
+set encoding=utf-8
 
 " 判断操作系统
 let g:darwin = has('mac')
@@ -46,11 +46,12 @@ set shiftwidth=4 " 设置自动缩进长度为4空格
 set autoindent " 继承前一行的缩进方式，适用于多行注释
 
 " 这里设置代码折叠，但是会卡VIM
-"set foldenable              " 开始折叠
-"set foldmethod=syntax       " 设置语法折叠
-"set foldcolumn=0            " 设置折叠区域的宽度
-"setlocal foldlevel=1        " 设置折叠层数为
-"set foldlevelstart=99       " 打开文件是默认不折叠代码
+set foldenable              " 开始折叠
+set foldmethod=syntax       " 设置语法折叠
+set foldcolumn=0            " 设置折叠区域的宽度
+setlocal foldlevel=1        " 设置折叠层数为
+set foldlevelstart=99       " 打开文件是默认不折叠代码
+set fileencoding=utf-8
 
 " 定义快捷键的前缀，即<Leader>
 let mapleader=";"
@@ -133,6 +134,7 @@ Plug 'ianva/vim-youdao-translater'
 "
 
 " 代码自动补全
+" coo-go容易让gopls吃大量内存和CPU，机器打爆
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 "Plug 'govim/govim'
@@ -144,6 +146,7 @@ Plug 'airblade/vim-gitgutter'
 " 下面两个插件要配合使用，可以自动生成代码块
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'github/copilot.vim'
 
 " 配色方案
 " colorschem
@@ -203,7 +206,6 @@ call plug#end()
 " 开启24bit的颜色，开启这个颜色会更漂亮一些
 set termguicolors
 " 配色方案, 可以从上面插件安装中的选择一个使用
-" colorscheme gruvbox " gruvbox " 主题
 let g:rehash256 = 1
 let g:molokai_original = 1
 colorscheme molokai " 主题
@@ -216,6 +218,8 @@ set background=dark " 主题背景 dark-深色; light-浅色
 let g:go_fmt_command = "goimports" " 格式化将默认的 gofmt 替换
 let g:go_autodetect_gopath = 1
 let g:go_list_type = "quickfix"
+"let g:go_gopls_options = ['-remote=unix;/tmp/gopls-daemon-socket']
+"let g:go_gopls_options = ['-remote=172.16.2.132:37374']
 
 let g:go_version_warning = 1
 let g:go_highlight_types = 1
@@ -327,7 +331,7 @@ nmap <Leader>pwd :NERDTreeCWD<CR>
 "let g:SuperTabDefaultCompletionType = '<M-j>'
 
 " 关闭了提示再次触发的快捷键
-let g:ycm_key_invoke_completion = '<Leader>,'
+"let g:ycm_key_invoke_completion = '<Leader>,'
 
 "let g:ycm_language_server =
 "  \ [
@@ -399,11 +403,12 @@ endif
 
 
 "==============================================================================
-" 自定义的额外配置 
+" 自定义的额外配置
 "==============================================================================
 "
 " 自动保存 session
 autocmd VimLeave * mks! ~/.vim/session.vim
+"autocmd VimEnter *.go GoMetaLinter
 " 加载 session 的快捷键
 nmap <Leader>his :source ~/.vim/session.vim<CR>
 
@@ -427,8 +432,193 @@ let g:csv_delim=','
 " go折叠
 let g:go_fold_enable = ['block', 'import', 'varconst', 'package_comment']
 
+let g:go_metalinter_command = "golangci-lint"
+"let g:go_metalinter_autosave = 1
+"
+"let g:go_gopls_settings = {'build.directoryFilters': ['-common/pb/message_1.pb.go']}
+let g:go_build_tags = "stub"
+"let g:syntastic_go_go_build_args = '-tags="stub"'
+"
+
 " 设置自动保存
 set autowrite
 
 " 手动设置gopls目录
 "let g:ycm_gopls_binary_path='/home/tangwei/go/bin/gopls'
+let g:coc_disable_startup_warning = 1
+
+
+
+
+" May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
+" utf-8 byte sequence
+set encoding=utf-8
+" Some servers have issues with backup files, see #649
+set nobackup
+set nowritebackup
+
+" Having longer updatetime (default is 4000 ms = 4s) leads to noticeable
+" delays and poor user experience
+set updatetime=300
+
+" Always show the signcolumn, otherwise it would shift the text each time
+" diagnostics appear/become resolved
+set signcolumn=yes
+
+" Use tab for trigger completion with characters ahead and navigate
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call ShowDocumentation()<CR>
+
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" SymbolionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" SymbolionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" SymbolionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" SymbolionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
+
+" Highlight the symbol and its references when holding the cursor
+autocmd CursorHold * silent <leader>as  <Plug>(coc-codeaction-source)
+" Apply the most preferred quickfix action to fix diagnostic on the current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Remap keys for applying refactor code actions
+nmap <silent> <leader>re <Plug>(coc-codeaction-refactor)
+xmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+nmap <silent> <leader>r  <Plug>(coc-codeaction-refactor-selected)
+
+" Run the Code Lens action on the current line
+nmap <leader>cl  <Plug>(coc-codelens-action)
+
+" Map function and class text objects
+" NOTE: Requires 'textDocument.documentSymbol' support from the language server
+xmap if <Plug>(coc-funcobj-i)
+omap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap af <Plug>(coc-funcobj-a)
+xmap ic <Plug>(coc-classobj-i)
+omap ic <Plug>(coc-classobj-i)
+xmap ac <Plug>(coc-classobj-a)
+omap ac <Plug>(coc-classobj-a)
+
+" Remap <C-f> and <C-b> to scroll float windows/popups
+if has('nvim-0.4.0') || has('patch-8.2.0750')
+  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
+  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
+  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
+  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
+endif
+
+" Use CTRL-S for selections ranges
+" Requires 'textDocument/selectionRange' support of language server
+nmap <silent> <C-s> <Plug>(coc-range-select)
+xmap <silent> <C-s> <Plug>(coc-range-select)
+
+" Add `:Format` command to format current buffer
+command! -nargs=0 Format :call CocActionAsync('format')
+
+" Add `:Fold` command to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" Add `:OR` command for organize imports of the current buffer
+command! -nargs=0 OR   :call     CocActionAsync('runCommand', 'editor.action.organizeImport')
+
+" Add (Neo)Vim's native statusline support
+" NOTE: Please see `:h coc-status` for integrations with external plugins that
+" provide custom statusline: lightline.vim, vim-airline
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Mappings for CoCList
+" Show all diagnostics
+nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent><nowait> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent><nowait> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent><nowait> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent><nowait> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item
+nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item
+nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
